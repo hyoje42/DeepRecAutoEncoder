@@ -45,7 +45,7 @@ class UserItemRecDataProvider:
                 lines = src.readlines()
                 idx = 0
                 bar = progressbar.ProgressBar(max_value=len(lines))
-                for i, line in enumerate(lines):
+                for line in lines:
                     bar.update(idx)
                     parts = line.strip().split(self._delimiter) # ['user_id', 'item_id', 'rating'] ['1', '4482', '3.0']
                     if len(parts)<3:
@@ -57,7 +57,7 @@ class UserItemRecDataProvider:
                     if key not in self.data:
                         self.data[key] = []
                     self.data[key].append((value, rating))
-                    idx = i
+                    idx += 1
                 bar.update(idx)
 
     def _build_maps(self):
@@ -75,7 +75,7 @@ class UserItemRecDataProvider:
                 lines = src.readlines()
                 idx = 0
                 bar = progressbar.ProgressBar(max_value=len(lines))
-                for i, line in enumerate(lines):
+                for line in lines:
                     bar.update(idx)
                     parts = line.strip().split(self._delimiter) # ['user_id', 'item_id', 'rating'] ['1', '4482', '3.0']
                     if len(parts)<3:
@@ -90,7 +90,7 @@ class UserItemRecDataProvider:
                     if i_id_orig not in self._item_id_map:
                         self._item_id_map[i_id_orig] = i_id
                         i_id += 1
-                    idx = i
+                    idx += 1
                 bar.update(idx)
 
 

@@ -27,12 +27,12 @@ parser.add_argument('--save_path', type=str, default="autorec.pt", metavar='N',
                                         help='where to save model')
 parser.add_argument('--predictions_path', type=str, default="out.txt", metavar='N',
                                         help='where to save predictions')
-
+# Beauty/TRAIN, Netflix/N3M_TRAIN
 args = parser.parse_args('''--path_to_train_data Beauty/TRAIN
-                            --path_to_eval_data Netflix/NF_TEST
-                            --hidden_layers 512,512,1024
+                            --path_to_eval_data Beauty/TEST
+                            --hidden_layers 128,256,256
                             --non_linearity_type selu
-                            --save_path model_save/model.epoch_11
+                            --save_path model_save/Beauty/model.best
                             --drop_prob 0.8
                             --predictions_path preds.txt
                         '''.split())

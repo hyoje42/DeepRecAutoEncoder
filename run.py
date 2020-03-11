@@ -59,8 +59,24 @@ parser.add_argument('--non_linearity_type', type=str, default="selu", metavar='N
                                         help='type of the non-linearity used in activations')
 parser.add_argument('--logdir', type=str, default="logs", metavar='N',
                                         help='where to save model and write logs')
-
-args = parser.parse_args()
+# Netflix/N3M_TRAIN, Beauty/TRAIN
+args = parser.parse_args('''--gpu_ids 0 
+                            --path_to_train_data Beauty/TRAIN
+                            --path_to_eval_data Beauty/VALID
+                            --hidden_layers 128,256,256
+                            --non_linearity_type selu 
+                            --batch_size 32 
+                            --logdir model_save/Beauty_0.05_0.03
+                            --drop_prob 0.8 
+                            --optimizer momentum 
+                            --lr 0.005 
+                            --weight_decay 0 
+                            --aug_step 1 
+                            --noise_prob 0 
+                            --num_epochs 100 
+                            --summary_frequency 1000
+                        '''.split())
+# args = parser.parse_args()
 print(args)
 
 use_gpu = torch.cuda.is_available() # global flag
@@ -185,7 +201,7 @@ def main():
 
     if args.noise_prob > 0.0:
         dp = nn.Dropout(p=args.noise_prob)
-
+    best_loss = np.inf
     for epoch in range(args.num_epochs):
         print('Doing epoch {} of {}'.format(epoch, args.num_epochs))
         e_start_time = time.time()
@@ -246,6 +262,10 @@ def main():
             logger.scalar_summary("EVALUATION_RMSE", eval_loss, epoch)
             print("Saving model to {}".format(model_checkpoint + ".epoch_"+str(epoch)))
             torch.save(rencoder.state_dict(), model_checkpoint + ".epoch_"+str(epoch))
+            if best_loss > eval_loss:
+                print("Saving Best model to {}".format(model_checkpoint + '.best'))
+                torch.save(rencoder.state_dict(), model_checkpoint + '.best')
+                best_loss = eval_loss
 
     print("Saving model to {}".format(model_checkpoint + ".last"))
     torch.save(rencoder.state_dict(), model_checkpoint + ".last")
