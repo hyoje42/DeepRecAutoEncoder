@@ -44,9 +44,9 @@ parser.add_argument('--hidden_layers', type=str, default="1024,512,512,128", met
                     help='hidden layer sizes, comma-separated')
 parser.add_argument('--gpu_ids', type=str, default="0", metavar='N',
                     help='comma-separated gpu ids to use for data parallel training')
-parser.add_argument('--path_to_train_data', type=str, default="", metavar='N',
+parser.add_argument('--path_to_train_data', type=str, default="Netflix/N3M_TRAIN", metavar='N',
                     help='Path to training data')
-parser.add_argument('--path_to_eval_data', type=str, default="", metavar='N',
+parser.add_argument('--path_to_eval_data', type=str, default="Netflix/N3M_VALID", metavar='N',
                     help='Path to evaluation data')
 parser.add_argument('--non_linearity_type', type=str, default="selu", metavar='N',
                     help='type of the non-linearity used in activations')
@@ -67,6 +67,7 @@ def do_eval(encoder, evaluation_data_layer):
   denom = 0.0
   total_epoch_loss = 0.0
   for i, (eval, src) in enumerate(evaluation_data_layer.iterate_one_epoch_eval()):
+    # src : train data
     inputs = Variable(src.cuda().to_dense() if use_gpu else src.to_dense())
     targets = Variable(eval.cuda().to_dense() if use_gpu else eval.to_dense())
     outputs = encoder(inputs)

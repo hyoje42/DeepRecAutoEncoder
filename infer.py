@@ -28,7 +28,15 @@ parser.add_argument('--save_path', type=str, default="autorec.pt", metavar='N',
 parser.add_argument('--predictions_path', type=str, default="out.txt", metavar='N',
                     help='where to save predictions')
 
-args = parser.parse_args()
+args = parser.parse_args('''--path_to_train_data Netflix/NF_TRAIN
+                            --path_to_eval_data Netflix/NF_TEST
+                            --hidden_layers 512,512,1024
+                            --non_linearity_type selu
+                            --save_path model_save/model.epoch_11
+                            --drop_prob 0.8
+                            --predictions_path preds.txt
+                         '''.split())
+# args = parser.parse_args()
 print(args)
 
 use_gpu = torch.cuda.is_available() # global flag

@@ -106,9 +106,19 @@ class UserItemRecDataProvider:
       yield  mini_batch
 
   def iterate_one_epoch_eval(self, for_inf=False):
+    """
+    inds1 : [0, 0, ..., 0]
+    inds2 : [234, 1342, ..., 7648]
+    vals : [1.0, 3.0, ..., 5.0]
+    (0, 234) : 1.0, (0, 1342) : 3.0, (0, 7648): 5.0
+    sparseTensor.to_dense() -> tensor array
+    :param for_inf:
+    :return:
+    """
     keys = list(self.data.keys())
     s_ind = 0
     while s_ind < len(keys):
+      # self.data[keys[s_ind]] : [(2634, 3.0), (2440, 2.0), (3735, 3.0), (1227, 3.0)]
       inds1 = [0] * len([v[0] for v in self.data[keys[s_ind]]])
       inds2 = [v[0] for v in self.data[keys[s_ind]]]
       vals = [v[1] for v in self.data[keys[s_ind]]]
