@@ -180,3 +180,7 @@ model_save/model.epoch_177
 model_save/model.epoch_180
 model_save/model.last
 model_save/model.onnx
+preds.txt
+preds.txt
+logs/events.out.tfevents.1583898538.hyoje-desktop
+Beauty/TRAIN/train.txt

@@ -9,7 +9,8 @@ parser.add_argument('--path_to_predictions', type=str, default="", metavar='N',
 parser.add_argument('--round', action='store_true',
                     help='round predictions to nearest')
 
-args = parser.parse_args()
+args = parser.parse_args("--path_to_predictions preds.txt".split())
+# args = parser.parse_args()
 print(args)
 
 def main():
