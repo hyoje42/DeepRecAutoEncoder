@@ -1,4 +1,11 @@
-# Copyright (c) 2017 NVIDIA Corporation
+"""
+Copyright (c) 2017 NVIDIA Corporation
+
+Modifed by Hyoje Lee
+2020-03-11
+
+"""
+
 import torch
 import argparse
 from reco_encoder.data import input_layer
